@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zachraňte sociální sítě</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background-color: #0d1117;
+      color: #e6edf3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-image: radial-gradient(circle at center, #202833 0%, #0d1117 80%);
+    }
+    .container {
+      text-align: center;
+      max-width: 500px;
+      padding: 20px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.05);
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      backdrop-filter: blur(8px);
+    }
+    h1 {
+      color: #58a6ff;
+    }
+    input {
+      padding: 10px;
+      font-size: 1em;
+      border-radius: 8px;
+      border: none;
+      margin-top: 10px;
+      width: 100px;
+      text-align: center;
+    }
+    button {
+      background-color: #238636;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 1em;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: background 0.3s, transform 0.1s;
+    }
+    button:hover {
+      background-color: #2ea043;
+      transform: scale(1.05);
+    }
+    .hidden {
+      display: none;
+    }
+    .safe {
+      margin-top: 20px;
+      font-size: 80px;
+      transition: transform 0.5s, color 0.3s;
+      display: inline-block;
+    }
+    .safe.locked {
+      color: #da3633;
+      animation: pulse 1.5s infinite;
+    }
+    .safe.unlocked {
+      color: #2ea043;
+      transform: rotate(-15deg) scale(1.2);
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    a {
+      color: #58a6ff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="intro">
+      <h1>Zachraňte sociální sítě</h1>
+      <p>Digitální svět se hroutí! Musíš zjistit, v jakém roce vznikl <strong>DigiZen</strong>.  
+         Odpověď hledej na <a href="https://or.justice.cz" target="_blank">www.or.justice.cz</a>.</p>
+      <button onclick="startGame()">Začít hru</button>
+    </div>
+
+    <div id="game" class="hidden">
+      <h2>Odemkni sejf</h2>
+      <div class="safe locked" id="safe">🔒</div>
+      <p>Zadej rok vzniku DigiZen:</p>
+      <input type="number" id="answer" placeholder="Rok">
+      <button onclick="checkAnswer()">Odeslat</button>
+      <p id="message"></p>
+    </div>
+
+    <div id="success" class="hidden">
+      <h2>✅ Úspěch!</h2>
+      <p>Sejf je odemčen. Zachránil jsi sociální sítě!</p>
+      <div class="safe unlocked">🔓</div>
+      <audio id="successSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_9c2f7a3f6e.mp3"></audio>
+    </div>
+  </div>
+
+  <script>
+    const correctYear = 2024;
+
+    function startGame() {
+      document.getElementById('intro').classList.add('hidden');
+      document.getElementById('game').classList.remove('hidden');
+    }
+
+    function checkAnswer() {
+      const input = document.getElementById('answer').value.trim();
+      const message = document.getElementById('message');
+      const safe = document.getElementById('safe');
+
+      if (parseInt(input) === correctYear) {
+        document.getElementById('game').classList.add('hidden');
+        document.getElementById('success').classList.remove('hidden');
+        document.getElementById('successSound').play();
+      } else {
+        message.textContent = "❌ Špatně! Zkus to znovu.";
+        safe.classList.remove('unlocked');
+        safe.classList.add('locked');
+      }
+    }
+  </script>
+</body>
+</html>
